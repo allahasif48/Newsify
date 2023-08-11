@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>News Updates</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1em 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2em;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .article {
+            border-bottom: 1px solid #ddd;
+            padding: 1em 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .article img {
+            max-width: 120px;
+            margin-right: 1em;
+            border-radius: 5px;
+        }
+
+        .article-content {
+            flex: 1;
+        }
+
+        .title {
+            font-size: 1.5em;
+            margin: 0;
+            color: #222;
+        }
+
+        .description {
+            margin: 0.5em 0;
+            color: #555;
+        }
+
+        .read-more {
+            color: #e53935;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .news-source {
+            font-size: 1em;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            margin: 1.5em 0 1em;
+            color: #333;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function refreshNews() {
+            $.get('/get_news', function (data) {
+                var articles = data.articles;
+                var newsList = "";
+
+                for (var i = 0; i < articles.length; i++) {
+                    newsList += `
+                        <div class='article'>
+                            <img src='https://i.pinimg.com/originals/4e/a9/81/4ea98108e0dd10a1dc417a24e32232e2.png' alt='News Image'>
+                            <div class='article-content'>
+                                <h3 class='title'>${articles[i].title}</h3>
+                                <p class='description'>${articles[i].description}</p>
+                                <a class='read-more' href='${articles[i].url}' target='_blank'>Read More</a>
+                                <p class='news-source'>${articles[i].source.name}</p>
+                            </div>
+                        </div>`;
+                }
+
+                $('#news-list').html(newsList);
+            });
+        }
+
+        $(document).ready(function () {
+            refreshNews(); // Initial load
+            setInterval(refreshNews, 60000); // Refresh every 1 minute
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Professional News Channel</h1>
+    </header>
+    <div class="container">
+        <h2 class="section-title">Latest News</h2>
+        <div id="news-list">
+            <!-- News articles will be displayed here -->
+        </div>
+    </div>
+</body>
+</html>
