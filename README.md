@@ -1,0 +1,2 @@
+# Newsify
+AWS_project
